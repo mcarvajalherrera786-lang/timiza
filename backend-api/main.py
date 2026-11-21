@@ -85,6 +85,32 @@ def obtener_barrio(db: Session = Depends(get_db)) -> dict:
                 "longitud": -74.16,
             },
         ],
+        "resenas": [
+            {
+                "id": 1,
+                "autor": "María Fernanda R.",
+                "lugar": "Parque Metropolitano Timiza",
+                "texto": "Fin de semana perfecto en el lago. El parque está hermoso y muy seguro. ¡Totalmente recomendado!",
+                "rating": 5,
+                "fecha": "2026-10-12",
+            },
+            {
+                "id": 2,
+                "autor": "Carlos Andrés P.",
+                "lugar": "Lago Timiza",
+                "texto": "Buen lugar para pasar la tarde, aunque se llena un poco los fines de semana.",
+                "rating": 4,
+                "fecha": "2026-09-28",
+            },
+            {
+                "id": 3,
+                "autor": "Laura M.",
+                "lugar": "Jardín Botánico de Bogotá",
+                "texto": "Paseo tranquilo, ideal para desconectar del ruido de Bogotá.",
+                "rating": 5,
+                "fecha": "2026-08-15",
+            },
+        ],
     }
 
 

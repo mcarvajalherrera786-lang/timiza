@@ -53,6 +53,7 @@ def test_get_barrio_retorna_ficha_geojson_y_estadisticas(client):
     assert "total_predios" in data["estadisticas"]
     assert data["historia"]
     assert isinstance(data.get("lugares_turisticos"), list)
+    assert isinstance(data.get("resenas"), list)
 
 
 def test_crud_predios_completo(client):

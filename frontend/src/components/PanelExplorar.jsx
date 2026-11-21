@@ -85,6 +85,24 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
             </div>
           </div>
         ) : null}
+        {barrio && Array.isArray(barrio.resenas) && barrio.resenas.length > 0 ? (
+          <div className="mt-4">
+            <div className="mb-2 text-sm font-semibold text-white">Reseñas de visitantes</div>
+            <div className="space-y-2">
+              {barrio.resenas.map((r) => (
+                <div key={r.id} className="rounded bg-slate-800 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-white">{r.autor}</span>
+                    <span className="text-xs text-amber-400">{"\u2605".repeat(r.rating || 5)}{"\u2606".repeat(Math.max(0, 5 - (r.rating || 5)))}</span>
+                  </div>
+                  <div className="mt-1 text-xs text-slate-400">{r.lugar}</div>
+                  <p className="mt-1 text-xs text-slate-300">{r.texto}</p>
+                  <div className="mt-1 text-[10px] text-slate-500">{r.fecha}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
