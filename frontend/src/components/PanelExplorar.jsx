@@ -16,6 +16,12 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
             <div className="mt-1 flex justify-between"><span>Área total</span><span>{barrio.area_total_ha ?? barrio.area ?? 'N/D'} ha</span></div>
             <div className="mt-1 flex justify-between"><span>Estrato predominante</span><span>{barrio.estrato_predominante || '3'}</span></div>
             <div className="mt-1 flex justify-between"><span>Avalúo total del sector</span><span>{barrio.total_avaluos ?? barrio.avaluo_total ?? 'N/D'}</span></div>
+            {barrio.historia ? (
+              <div className="mt-2 border-t border-slate-700 pt-2">
+                <div className="font-semibold text-slate-200">Historia del barrio</div>
+                <p className="mt-1 text-slate-300">{barrio.historia}</p>
+              </div>
+            ) : null}
           </div>
         ) : null}
         <input
@@ -56,6 +62,29 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
             </button>
           ))}
         </div>
+        {barrio && Array.isArray(barrio.lugares_turisticos) && barrio.lugares_turisticos.length > 0 ? (
+          <div className="mt-4">
+            <div className="mb-2 text-sm font-semibold text-white">Lugares turísticos</div>
+            <div className="space-y-2">
+              {barrio.lugares_turisticos.map((l) => (
+                <div key={l.nombre} className="overflow-hidden rounded bg-slate-800">
+                  {l.imagen ? (
+                    <img src={l.imagen} alt={l.nombre} className="h-32 w-full object-cover" loading="lazy" />
+                  ) : (
+                    <div className="flex h-32 w-full items-center justify-center bg-slate-700 text-3xl">🏞️</div>
+                  )}
+                  <div className="p-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-white">{l.nombre}</span>
+                      <span className="rounded bg-slate-700 px-2 py-0.5 text-xs text-slate-200">{l.tipo}</span>
+                    </div>
+                    <div className="mt-1 text-xs text-slate-400">{l.descripcion}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );

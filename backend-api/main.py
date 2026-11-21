@@ -48,10 +48,43 @@ def obtener_barrio(db: Session = Depends(get_db)) -> dict:
         "area_total_ha": 122.45,
         "poblacion_estimada": 45000,
         "estrato_predominante": "3",
-        "historia": "Fundación del barrio por el ICT en los años 60...",
+        "historia": (
+            "Timiza es un barrio del sur de Bogotá, en la Localidad de Kennedy, asignado a la UPZ 47. "
+            "Surgió a mediados del siglo XX como zona de expansión del Distrito, impulsado por el ICT para "
+            "la construcción de barrios con equipamiento. Hoy es un barrio de fuerte identidad verde: el "
+            "Parque Metropolitano Timiza, con su lago artificial, ciclorrutas, canchas de fútbol y más de "
+            "2.652 árboles, es el corazón de la comunidad, mientras el Jardín Botánico de Bogotá protege la "
+            "isla del lago y los bosques urbanos del sur de la ciudad."
+        ),
         "hidrografia": "Lago Timiza y Río Tunjuelo",
         "geojson": geojson,
         "estadisticas": stats,
+        "lugares_turisticos": [
+            {
+                "nombre": "Parque Metropolitano Timiza",
+                "tipo": "Parque Natural",
+                "descripcion": "Pulmón verde de Kennedy con lago artificial, ciclorrutas, canchas de fútbol y más de 2.652 árboles. Inaugurado en 2021.",
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Parque_Timiza%2C_Bogot%C3%A1.jpg",
+                "latitud": 4.6115,
+                "longitud": -74.1558,
+            },
+            {
+                "nombre": "Lago Timiza",
+                "tipo": "Lago Recreativo",
+                "descripcion": "Lago artificial de recreación del barrio, rodeado de senderos, plazoletas y zonas verdes.",
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Parque_Timiza%2C_Bogot%C3%A1.jpg",
+                "latitud": 4.605,
+                "longitud": -74.145,
+            },
+            {
+                "nombre": "Jardín Botánico de Bogotá",
+                "tipo": "Naturaleza",
+                "descripcion": "El Jardín Botánico protege la isla del lago del Parque Timiza y los bosques urbanos del sur de Bogotá.",
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Parque_Timiza%2C_Bogot%C3%A1.jpg",
+                "latitud": 4.62,
+                "longitud": -74.16,
+            },
+        ],
     }
 
 
