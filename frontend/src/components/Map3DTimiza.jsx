@@ -27,7 +27,21 @@ function colorDestino(destino) {
   return '#38bdf8';
 }
 
-export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode, onMapClick, resetToken }) {
+function findNearestLugar(lng, lat, lugares) {
+  if (!Array.isArray(lugares) || lugares.length === 0) return null;
+  let best = null;
+  let bestDist = Infinity;
+  for (const l of lugares) {
+    const d = Math.hypot(
+      (l.longitud - lng) * Math.cos((l.latitud * Math.PI) / 180),
+      (l.latitud - lat) * (Math.PI / 180)
+    );
+    if (d < bestDist) { bestDist = d; best = l; }
+  }
+  return bestDist <= 0.005 ? best : null;
+}
+
+export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode, onMapClick, resetToken, lugares = [], selectedLugar = null, onLugarClick }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const tourRef = useRef(null);
@@ -54,6 +68,16 @@ export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode,
     map.on('click', (e) => {
       if (createMode && onMapClick) {
         onMapClick(e.lngLat.lng, e.lngLat.lat);
+        return;
+      }
+      const lugar = findNearestLugar(e.lngLat.lng, e.lngLat.lat, lugares);
+      if (lugar) {
+        map.flyTo({ center: [lugar.longitud, lugar.latitud], zoom: TIMIZA_ZOOM, duration: 1500 });
+        map.openPopup({
+          id: 'lugar-popup',
+          lngLat: [lugar.longitud, lugar.latitud],
+          content: `<div style="min-width:180px"><img src="${lugar.imagen}" alt="${lugar.nombre}" style="width:100%;height:90px;object-fit:cover;border-radius:6px" /><h3 style="margin:6px 0 2px;font-size:14px;color:#fff">${lugar.nombre}</h3><p style="margin:0;font-size:12px;color:#cbd5e1">${lugar.tipo}</p></div>`,
+        });
       }
     });
 
@@ -94,7 +118,7 @@ export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode,
       if (tourRef.current) cancelAnimationFrame(tourRef.current);
       map.remove();
     };
-  }, [createMode, onMapClick]);
+  }, [createMode, onMapClick, lugares]);
 
   useEffect(() => {
     if (!ready || !mapRef.current) return;
@@ -108,6 +132,18 @@ export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode,
       });
     }
   }, [selectedPredio, ready]);
+
+  useEffect(() => {
+    if (!ready || !mapRef.current) return;
+    if (selectedLugar) {
+      mapRef.current.flyTo({ center: [selectedLugar.longitud, selectedLugar.latitud], zoom: TIMIZA_ZOOM, duration: 1500 });
+      mapRef.current.openPopup({
+        id: 'lugar-popup',
+        lngLat: [selectedLugar.longitud, selectedLugar.latitud],
+        content: `<div style="min-width:180px"><img src="${selectedLugar.imagen}" alt="${selectedLugar.nombre}" style="width:100%;height:90px;object-fit:cover;border-radius:6px" /><h3 style="margin:6px 0 2px;font-size:14px;color:#fff">${selectedLugar.nombre}</h3><p style="margin:0;font-size:12px;color:#cbd5e1">${selectedLugar.tipo}</p></div>`,
+      });
+    }
+  }, [selectedLugar, ready]);
 
   useEffect(() => {
     if (!ready || !mapRef.current) return;

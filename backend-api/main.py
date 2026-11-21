@@ -80,7 +80,7 @@ def obtener_barrio(db: Session = Depends(get_db)) -> dict:
                 "nombre": "Jardín Botánico de Bogotá",
                 "tipo": "Naturaleza",
                 "descripcion": "El Jardín Botánico protege la isla del lago del Parque Timiza y los bosques urbanos del sur de Bogotá.",
-                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Parque_Timiza%2C_Bogot%C3%A1.jpg",
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Caminata_en_el_Jard%C3%ADn_Bot%C3%A1nico_de_Bogot%C3%A1_19.jpg",
                 "latitud": 4.62,
                 "longitud": -74.16,
             },

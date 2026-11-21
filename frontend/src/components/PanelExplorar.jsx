@@ -1,4 +1,4 @@
-export default function PanelExplorar({ barrio, predios, loading, error, q, setQ, destino, setDestino, estrato, setEstrato, onSelect }) {
+export default function PanelExplorar({ barrio, predios, loading, error, q, setQ, destino, setDestino, estrato, setEstrato, onSelect, onLugarClick }) {
   if (loading) return <div className="p-4 text-sm text-slate-300">Cargando información catastral...</div>;
   if (error) return <div className="p-4 text-sm text-red-300">{error}</div>;
 
@@ -67,7 +67,7 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
             <div className="mb-2 text-sm font-semibold text-white">Lugares turísticos</div>
             <div className="space-y-2">
               {barrio.lugares_turisticos.map((l) => (
-                <div key={l.nombre} className="overflow-hidden rounded bg-slate-800">
+                <div key={l.nombre} className="overflow-hidden rounded bg-slate-800 cursor-pointer" onClick={() => onLugarClick && onLugarClick(l)}>
                   {l.imagen ? (
                     <img src={l.imagen} alt={l.nombre} className="h-32 w-full object-cover" loading="lazy" />
                   ) : (

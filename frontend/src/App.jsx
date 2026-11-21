@@ -18,6 +18,7 @@ export default function App() {
   const [createMode, setCreateMode] = useState(false);
   const [mapCoords, setMapCoords] = useState(null);
   const [resetToken, setResetToken] = useState(null);
+  const [selectedLugar, setSelectedLugar] = useState(null);
 
   const loadBarrio = useCallback(async () => {
     try {
@@ -91,6 +92,10 @@ export default function App() {
     setSelected(p);
   };
 
+  const handleLugarClick = (lugar) => {
+    setSelectedLugar({ ...lugar });
+  };
+
   const totalRegistros = Array.isArray(predios) ? predios.length : 0;
   const estratoPredominante =
     (barrio && (barrio.estrato_predominante || (barrio.estadisticas && barrio.estadisticas.estrato_predominante))) || '3';
@@ -132,6 +137,7 @@ export default function App() {
             estrato={estrato}
             setEstrato={setEstrato}
             onSelect={handlePredioClick}
+            onLugarClick={handleLugarClick}
           />
         </aside>
         <main className="h-full flex-1">
@@ -142,6 +148,9 @@ export default function App() {
             onMapClick={handleMapClick}
             resetToken={resetToken}
             predios={predios}
+            lugares={barrio?.lugares_turisticos || []}
+            selectedLugar={selectedLugar}
+            onLugarClick={handleLugarClick}
           />
         </main>
       </div>
