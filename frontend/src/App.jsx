@@ -96,6 +96,20 @@ export default function App() {
     setSelectedLugar({ ...lugar });
   };
 
+  const handleCompartir = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Barrio Timiza', text: 'Explora el Barrio Timiza en 3D', url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert('Enlace copiado: ' + url);
+      }
+    } catch (e) {
+      // noop
+    }
+  };
+
   const totalRegistros = Array.isArray(predios) ? predios.length : 0;
   const estratoPredominante =
     (barrio && (barrio.estrato_predominante || (barrio.estadisticas && barrio.estadisticas.estrato_predominante))) || '3';
@@ -106,8 +120,8 @@ export default function App() {
     <div className="flex h-screen flex-col bg-slate-950">
       <header className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-4 py-3">
         <div>
-          <h1 className="text-lg font-bold text-white">Explora Timiza 3D — Kennedy, Bogotá</h1>
-          <p className="text-xs text-slate-400">Barrio Timiza (UPZ 47)</p>
+          <h1 className="text-lg font-bold text-white">Barrio Timiza</h1>
+          <p className="text-xs text-slate-400">Barrio Timiza (UPZ 47) · Kennedy, Bogotá</p>
         </div>
         <div className="flex items-center gap-4 text-xs text-slate-300">
           <div>UPZ 47</div>
@@ -115,12 +129,20 @@ export default function App() {
           <div>Estrato predominante: {estratoPredominante}</div>
           <div>Total registros: {totalRegistros}</div>
         </div>
-        <button
-          onClick={openCreate}
-          className="rounded bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-500"
-        >
-          + Nuevo Registro
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCompartir}
+            className="rounded border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+          >
+            Compartir
+          </button>
+          <button
+            onClick={openCreate}
+            className="rounded bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-500"
+          >
+            + Nuevo Registro
+          </button>
+        </div>
       </header>
 
       <div className="flex min-h-0 flex-1">
