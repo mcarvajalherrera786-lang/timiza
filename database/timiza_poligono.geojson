@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Timiza", "kind": "barrio" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [-74.163, 4.606],
+          [-74.148, 4.606],
+          [-74.148, 4.618],
+          [-74.163, 4.618],
+          [-74.163, 4.606]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Parque Metropolitano Timiza", "kind": "parque" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [-74.158, 4.610],
+          [-74.150, 4.610],
+          [-74.150, 4.614],
+          [-74.158, 4.614],
+          [-74.158, 4.610]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Lago Timiza", "kind": "lago" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [-74.154, 4.606],
+          [-74.148, 4.606],
+          [-74.148, 4.608],
+          [-74.154, 4.608],
+          [-74.154, 4.606]
+        ]
+      }
+    }
+  ]
+}

@@ -39,6 +39,9 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
           </select>
         </div>
         <div className="space-y-2">
+          {predios.length === 0 ? (
+            <div className="rounded bg-slate-800 p-3 text-xs text-slate-400">No encontramos registros con esos filtros. Prueba con otra búsqueda o destino.</div>
+          ) : null}
           {predios.map((p) => (
             <button
               key={p.id}

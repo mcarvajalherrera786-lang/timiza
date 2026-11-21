@@ -22,7 +22,8 @@ export async function getPredios(params = {}) {
   if (params.estrato) q.set('estrato', String(params.estrato));
   if (params.q) q.set('q', params.q);
   const query = q.toString();
-  return fetchJson(`${VITE_API_URL}/api/v1/predios${query ? `?${query}` : ''}`);
+  const data = await fetchJson(`${VITE_API_URL}/api/v1/predios${query ? `?${query}` : ''}`);
+  return data.data || data;
 }
 
 export async function getPredio(id) {

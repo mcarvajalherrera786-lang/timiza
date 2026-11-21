@@ -9,6 +9,7 @@ env/
 build/
 dist/
 *.sqlite3
+*.db
 .pytest_cache/
 .coverage
 htmlcov/

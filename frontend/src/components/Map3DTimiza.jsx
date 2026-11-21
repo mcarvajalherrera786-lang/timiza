@@ -112,7 +112,7 @@ export default function Map3DTimiza({ selectedPredio, onPredioClick, createMode,
   useEffect(() => {
     if (!ready || !mapRef.current) return;
     const map = mapRef.current;
-    if (resetToken !== undefined) {
+    if (resetToken) {
       map.flyTo({ center: [resetToken.lng || TIMIZA_CENTER[0], resetToken.lat || TIMIZA_CENTER[1]], zoom: 16, duration: 1500 });
     }
   }, [resetToken, ready]);
