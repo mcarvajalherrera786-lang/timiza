@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Map3DTimiza from './components/Map3DTimiza';
 import PanelExplorar from './components/PanelExplorar';
 import CrudModal from './components/CrudModal';
-import { getBarrio, getPredios, createPredio, updatePredio, deletePredio } from './api';
+import { getBarrio, getPredios, createPredio, updatePredio, deletePredio, getPredio } from './api';
 
 export default function App() {
   const [barrio, setBarrio] = useState(null);
@@ -19,6 +19,8 @@ export default function App() {
   const [mapCoords, setMapCoords] = useState(null);
   const [resetToken, setResetToken] = useState(null);
   const [selectedLugar, setSelectedLugar] = useState(null);
+  const [toast, setToast] = useState(null);
+  const toastTimer = useRef(null);
 
   const loadBarrio = useCallback(async () => {
     try {
@@ -43,6 +45,14 @@ export default function App() {
   useEffect(() => {
     loadBarrio();
   }, [loadBarrio]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const predioId = params.get('predio');
+    if (predioId) {
+      getPredio(Number(predioId)).then((p) => setSelected(p)).catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     loadPredios();
@@ -110,6 +120,22 @@ export default function App() {
     }
   };
 
+  const showToast = (msg) => {
+    setToast(msg);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleCompartirLugar = async (predioId) => {
+    const url = `${window.location.origin}${window.location.pathname}?predio=${predioId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('¡Enlace copiado para compartir!');
+    } catch (e) {
+      showToast('No se pudo copiar el enlace');
+    }
+  };
+
   const totalRegistros = Array.isArray(predios) ? predios.length : 0;
   const estratoPredominante =
     (barrio && (barrio.estrato_predominante || (barrio.estadisticas && barrio.estadisticas.estrato_predominante))) || '3';
@@ -160,6 +186,8 @@ export default function App() {
             setEstrato={setEstrato}
             onSelect={handlePredioClick}
             onLugarClick={handleLugarClick}
+            onCompartirLugar={handleCompartirLugar}
+            predioIdActivo={selected?.id ?? null}
           />
         </aside>
         <main className="h-full flex-1">
@@ -177,6 +205,11 @@ export default function App() {
         </main>
       </div>
 
+      {toast ? (
+        <div className="fixed bottom-4 left-1/2 z-[60] -translate-x-1/2 rounded bg-slate-900 px-4 py-2 text-sm text-white shadow-lg">
+          {toast}
+        </div>
+      ) : null}
       {crudOpen ? (
         <CrudModal
           open={crudOpen}

@@ -5,8 +5,20 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
   return (
     <div className="flex h-full flex-col">
       <div className="border-b border-slate-700 p-4">
-        <h2 className="text-base font-semibold text-white">Explorar &amp; Catastro</h2>
-        <p className="mt-1 text-xs text-slate-400">Barrio Timiza — Localidad de Kennedy, Bogotá</p>
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <h2 className="text-base font-semibold text-white">Explorar &amp; Catastro</h2>
+            <p className="mt-1 text-xs text-slate-400">Barrio Timiza — Localidad de Kennedy, Bogotá</p>
+          </div>
+          {typeof onCompartirLugar === 'function' && predioIdActivo != null ? (
+            <button
+              onClick={() => onCompartirLugar(predioIdActivo)}
+              className="shrink-0 rounded bg-slate-800 px-3 py-1.5 text-[10px] font-semibold text-white hover:bg-slate-700"
+            >
+              Compartir Lugar
+            </button>
+          ) : null}
+        </div>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         {barrio ? (
@@ -79,6 +91,7 @@ export default function PanelExplorar({ barrio, predios, loading, error, q, setQ
                       <span className="rounded bg-slate-700 px-2 py-0.5 text-xs text-slate-200">{l.tipo}</span>
                     </div>
                     <div className="mt-1 text-xs text-slate-400">{l.descripcion}</div>
+                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${l.latitud},${l.longitud}`} target="_blank" rel="noreferrer" className="mt-2 inline-block rounded bg-slate-800 px-2 py-1 text-[10px] text-sky-300">Cómo Llegar</a>
                   </div>
                 </div>
               ))}

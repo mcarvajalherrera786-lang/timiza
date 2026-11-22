@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import engine, get_db
+from init_db import init_db
 from models import Base, PredioCatastral
 from schemas import PredioCreate, PredioResponse, PredioUpdate
 from crud import (
@@ -33,6 +34,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def iniciar_base_datos() -> None:
+    init_db()
 
 
 @app.get("/api/v1/barrio")
